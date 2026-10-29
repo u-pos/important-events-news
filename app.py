@@ -334,8 +334,8 @@ def format_line_message(events: list[dict[str, Any]], today: date) -> str:
     for offset, label in enumerate(day_labels):
         day = today + timedelta(days=offset)
         weekday_ja = "月火水木金土日"[day.weekday()]
-        if offset > 0:
-            lines.append("----------------------")
+        if lines:
+            lines.append("")
         lines.append(f"【{label} {day:%m/%d（{weekday_ja}）】")
         day_events = [e for e in events if e.get("date") == day.isoformat()]
         day_events.sort(key=lambda e: (e.get("sort_dt", ""), e.get("category", ""), e.get("title", "")))
