@@ -346,9 +346,10 @@ def format_line_message(events: list[dict[str, Any]], today: date) -> str:
         for event in day_events:
             time_text = str(event.get("time", "時刻未確認"))
             # 先頭のゼロを外して 03:00 -> 3:00 にする。
+            # 時刻を必ず HH:MM 形式にする。
             if re.fullmatch(r"\d{1,2}:\d{2}", time_text):
                 hour, minute = time_text.split(":")
-                time_text = f"{int(hour)}:{minute}"
+                time_text = f"{int(hour):02d}:{minute}"
 
             category = str(event.get("category", ""))
             title = str(event.get("title", "")).strip()
@@ -370,7 +371,7 @@ def format_line_message(events: list[dict[str, Any]], today: date) -> str:
                 line = f"{time_text} 【{region_label}】{title}"
                 if detail:
                     line += f" — {detail}"
-            lines.append("・" + line)
+            lines.append(line)
 
     message = "\n".join(lines)
     # LINEのテキスト上限に収まらない場合は末尾のイベントから省く。
